@@ -1,9 +1,570 @@
 <!DOCTYPE html>
-<html>
+<html lang="uz">
 <head>
-  <title>Official Website</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MKM777 — Liquid Glass</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --glass: rgba(255,255,255,0.08);
+    --glass-border: rgba(255,255,255,0.18);
+    --glow-cyan: #00f5ff;
+    --glow-blue: #0080ff;
+    --glow-purple: #8000ff;
+    --glow-pink: #ff00c8;
+  }
+
+  html, body {
+    width: 100%; height: 100%;
+    overflow: hidden;
+    font-family: 'Rajdhani', sans-serif;
+    background: #000010;
+    color: #fff;
+  }
+
+  /* ── ANIMATED BACKGROUND ── */
+  .bg {
+    position: fixed; inset: 0; z-index: 0;
+    background: radial-gradient(ellipse at 20% 30%, rgba(0,80,255,0.3) 0%, transparent 55%),
+                radial-gradient(ellipse at 80% 70%, rgba(128,0,255,0.25) 0%, transparent 55%),
+                radial-gradient(ellipse at 50% 50%, rgba(0,200,255,0.1) 0%, transparent 70%),
+                #000010;
+  }
+
+  /* Floating animated orbs */
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
+    opacity: 0.5;
+    animation: floatOrb var(--dur, 12s) ease-in-out infinite alternate;
+  }
+  .orb1 { width:400px;height:400px;background:radial-gradient(circle,#0080ff,transparent); top:-100px;left:-100px;--dur:14s; }
+  .orb2 { width:300px;height:300px;background:radial-gradient(circle,#8000ff,transparent); bottom:-80px;right:-80px;--dur:10s; }
+  .orb3 { width:250px;height:250px;background:radial-gradient(circle,#00f5ff,transparent); top:40%;left:60%;--dur:16s; }
+  .orb4 { width:200px;height:200px;background:radial-gradient(circle,#ff00c8,transparent); top:20%;right:20%;--dur:13s; }
+
+  @keyframes floatOrb {
+    from { transform: translate(0,0) scale(1); }
+    to   { transform: translate(40px,30px) scale(1.15); }
+  }
+
+  /* Particle grid */
+  .grid-overlay {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(0,245,255,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,245,255,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    animation: gridPulse 4s ease-in-out infinite;
+  }
+  @keyframes gridPulse {
+    0%,100% { opacity:0.5; }
+    50% { opacity:1; }
+  }
+
+  /* Scanlines */
+  .scanlines {
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent 0,
+      transparent 3px,
+      rgba(0,0,0,0.08) 3px,
+      rgba(0,0,0,0.08) 4px
+    );
+    pointer-events: none;
+  }
+
+  /* ── MAIN CONTAINER ── */
+  .container {
+    position: relative; z-index: 10;
+    width: 100%; height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 0;
+  }
+
+  /* ── TITLE SECTION ── */
+  .title-wrap {
+    text-align: center;
+    margin-bottom: 48px;
+    animation: fadeDown 1s cubic-bezier(0.16,1,0.3,1) both;
+  }
+  @keyframes fadeDown {
+    from { opacity:0; transform:translateY(-40px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+
+  .title-sub {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 13px;
+    font-weight: 300;
+    letter-spacing: 8px;
+    text-transform: uppercase;
+    color: var(--glow-cyan);
+    opacity: 0.7;
+    margin-bottom: 12px;
+    animation: fadeDown 1s 0.1s cubic-bezier(0.16,1,0.3,1) both;
+  }
+
+  .title-main {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(42px, 8vw, 96px);
+    font-weight: 900;
+    letter-spacing: -2px;
+    line-height: 1;
+    background: linear-gradient(135deg, #fff 0%, var(--glow-cyan) 40%, var(--glow-blue) 70%, var(--glow-purple) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 30px rgba(0,245,255,0.4));
+    animation: fadeDown 1s 0.2s cubic-bezier(0.16,1,0.3,1) both, titleGlow 3s ease-in-out infinite alternate;
+  }
+  @keyframes titleGlow {
+    from { filter: drop-shadow(0 0 20px rgba(0,245,255,0.3)); }
+    to   { filter: drop-shadow(0 0 50px rgba(0,245,255,0.7)) drop-shadow(0 0 100px rgba(128,0,255,0.3)); }
+  }
+
+  .title-line {
+    width: 120px; height: 2px;
+    margin: 20px auto 0;
+    background: linear-gradient(90deg, transparent, var(--glow-cyan), var(--glow-purple), transparent);
+    animation: fadeDown 1s 0.3s cubic-bezier(0.16,1,0.3,1) both, lineShimmer 2s linear infinite;
+  }
+  @keyframes lineShimmer {
+    from { background-position: -200px; }
+    to   { background-position: 200px; }
+  }
+
+  /* ── LIQUID GLASS CARD ── */
+  .glass-card {
+    position: relative;
+    width: min(420px, 90vw);
+    padding: 52px 44px;
+    border-radius: 32px;
+    background: linear-gradient(135deg,
+      rgba(255,255,255,0.12) 0%,
+      rgba(255,255,255,0.04) 50%,
+      rgba(0,245,255,0.06) 100%
+    );
+    border: 1px solid rgba(255,255,255,0.15);
+    backdrop-filter: blur(40px) saturate(180%);
+    -webkit-backdrop-filter: blur(40px) saturate(180%);
+    box-shadow:
+      0 0 0 1px rgba(0,245,255,0.1),
+      0 32px 80px rgba(0,0,0,0.6),
+      0 0 60px rgba(0,128,255,0.15),
+      inset 0 1px 0 rgba(255,255,255,0.2),
+      inset 0 -1px 0 rgba(0,0,0,0.1);
+    animation: fadeUp 1s 0.5s cubic-bezier(0.16,1,0.3,1) both;
+    overflow: hidden;
+  }
+  @keyframes fadeUp {
+    from { opacity:0; transform:translateY(40px) scale(0.95); }
+    to   { opacity:1; transform:translateY(0) scale(1); }
+  }
+
+  /* Card inner shimmer */
+  .glass-card::before {
+    content: '';
+    position: absolute; inset: 0;
+    border-radius: 32px;
+    background: conic-gradient(from 0deg at 50% 0%, transparent 0deg, rgba(0,245,255,0.08) 60deg, transparent 120deg);
+    animation: cardRotate 8s linear infinite;
+    pointer-events: none;
+  }
+  @keyframes cardRotate {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+
+  /* Liquid drops inside card */
+  .glass-card::after {
+    content: '';
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: radial-gradient(circle at 30% 40%, rgba(0,245,255,0.05) 0%, transparent 40%),
+                radial-gradient(circle at 70% 60%, rgba(128,0,255,0.05) 0%, transparent 40%);
+    animation: liquidFlow 6s ease-in-out infinite alternate;
+    pointer-events: none;
+  }
+  @keyframes liquidFlow {
+    from { transform: translate(0,0); }
+    to   { transform: translate(20px,-15px); }
+  }
+
+  /* Card decorative corners */
+  .corner {
+    position: absolute;
+    width: 20px; height: 20px;
+    border-color: var(--glow-cyan);
+    border-style: solid;
+    opacity: 0.5;
+  }
+  .corner-tl { top:16px;left:16px;border-width:2px 0 0 2px; }
+  .corner-tr { top:16px;right:16px;border-width:2px 2px 0 0; }
+  .corner-bl { bottom:16px;left:16px;border-width:0 0 2px 2px; }
+  .corner-br { bottom:16px;right:16px;border-width:0 2px 2px 0; }
+
+  .card-icon {
+    width: 72px; height: 72px;
+    margin: 0 auto 24px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(0,136,255,0.3), rgba(0,245,255,0.15));
+    border: 1px solid rgba(0,245,255,0.3);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 32px;
+    box-shadow: 0 0 30px rgba(0,245,255,0.2), inset 0 1px 0 rgba(255,255,255,0.2);
+    animation: iconPulse 3s ease-in-out infinite;
+    position: relative; z-index: 1;
+  }
+  @keyframes iconPulse {
+    0%,100% { box-shadow: 0 0 20px rgba(0,245,255,0.2), inset 0 1px 0 rgba(255,255,255,0.2); transform: scale(1); }
+    50%      { box-shadow: 0 0 50px rgba(0,245,255,0.5), 0 0 80px rgba(0,128,255,0.2), inset 0 1px 0 rgba(255,255,255,0.3); transform: scale(1.05); }
+  }
+
+  .card-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    text-align: center;
+    color: #fff;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+    position: relative; z-index: 1;
+  }
+
+  .card-desc {
+    font-size: 14px;
+    font-weight: 300;
+    text-align: center;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 1px;
+    margin-bottom: 36px;
+    line-height: 1.6;
+    position: relative; z-index: 1;
+  }
+
+  /* ── LIQUID GLASS BUTTON ── */
+  .btn-wrap {
+    position: relative; z-index: 1;
+  }
+
+  .liquid-btn {
+    position: relative;
+    display: flex; align-items: center; justify-content: center; gap: 12px;
+    width: 100%; padding: 18px 36px;
+    border-radius: 50px;
+    border: none; cursor: pointer;
+    text-decoration: none;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #fff;
+    background: linear-gradient(135deg,
+      rgba(0,136,255,0.8) 0%,
+      rgba(0,245,255,0.6) 50%,
+      rgba(0,80,200,0.8) 100%
+    );
+    border: 1px solid rgba(255,255,255,0.3);
+    box-shadow:
+      0 0 0 1px rgba(0,245,255,0.2),
+      0 8px 32px rgba(0,136,255,0.4),
+      0 0 60px rgba(0,245,255,0.15),
+      inset 0 1px 0 rgba(255,255,255,0.4),
+      inset 0 -2px 0 rgba(0,0,0,0.2);
+    backdrop-filter: blur(20px);
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.16,1,0.3,1);
+    animation: btnAppear 1s 0.8s cubic-bezier(0.16,1,0.3,1) both;
+  }
+  @keyframes btnAppear {
+    from { opacity:0; transform:scale(0.8); }
+    to   { opacity:1; transform:scale(1); }
+  }
+
+  /* Liquid shimmer on button */
+  .liquid-btn::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(105deg,
+      transparent 30%,
+      rgba(255,255,255,0.25) 50%,
+      transparent 70%
+    );
+    transform: translateX(-100%);
+    transition: transform 0s;
+    border-radius: inherit;
+  }
+
+  .liquid-btn::after {
+    content: '';
+    position: absolute; inset: -2px;
+    border-radius: 52px;
+    background: conic-gradient(from var(--a, 0deg), var(--glow-cyan), var(--glow-blue), var(--glow-purple), var(--glow-pink), var(--glow-cyan));
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.4s;
+    animation: btnBorder 4s linear infinite;
+  }
+  @keyframes btnBorder {
+    from { --a: 0deg; }
+    to   { --a: 360deg; }
+  }
+  @property --a {
+    syntax: '<angle>';
+    inherits: false;
+    initial-value: 0deg;
+  }
+
+  .liquid-btn:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow:
+      0 0 0 1px rgba(0,245,255,0.4),
+      0 16px 50px rgba(0,136,255,0.6),
+      0 0 100px rgba(0,245,255,0.3),
+      inset 0 1px 0 rgba(255,255,255,0.5),
+      inset 0 -2px 0 rgba(0,0,0,0.2);
+    background: linear-gradient(135deg,
+      rgba(0,160,255,0.9) 0%,
+      rgba(0,245,255,0.7) 50%,
+      rgba(0,100,220,0.9) 100%
+    );
+  }
+  .liquid-btn:hover::before {
+    transform: translateX(100%);
+    transition: transform 0.6s ease;
+  }
+  .liquid-btn:hover::after {
+    opacity: 1;
+  }
+
+  .liquid-btn:active {
+    transform: translateY(-1px) scale(0.98);
+    box-shadow:
+      0 0 0 1px rgba(0,245,255,0.6),
+      0 8px 25px rgba(0,136,255,0.5),
+      0 0 60px rgba(0,245,255,0.4),
+      inset 0 1px 0 rgba(255,255,255,0.3);
+  }
+
+  .btn-icon {
+    font-size: 20px;
+    transition: transform 0.3s;
+  }
+  .liquid-btn:hover .btn-icon {
+    transform: scale(1.2) rotate(-5deg);
+  }
+
+  .btn-text {
+    position: relative; z-index: 1;
+  }
+
+  /* Ripple */
+  .ripple {
+    position: absolute;
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.5);
+    transform: scale(0);
+    animation: rippleAnim 0.6s ease-out forwards;
+    pointer-events: none;
+  }
+  @keyframes rippleAnim {
+    to { transform: scale(200); opacity: 0; }
+  }
+
+  /* ── FLOATING PARTICLES ── */
+  .particles {
+    position: fixed; inset: 0; z-index: 1;
+    pointer-events: none;
+  }
+  .particle {
+    position: absolute;
+    width: var(--s, 3px); height: var(--s, 3px);
+    border-radius: 50%;
+    background: var(--c, #00f5ff);
+    opacity: 0;
+    animation: particleFloat var(--dur, 8s) var(--delay, 0s) ease-in-out infinite;
+  }
+  @keyframes particleFloat {
+    0%   { opacity:0; transform: translateY(100vh) scale(0); }
+    10%  { opacity: var(--op, 0.6); }
+    90%  { opacity: var(--op, 0.6); }
+    100% { opacity:0; transform: translateY(-20px) translateX(var(--dx, 0px)) scale(1); }
+  }
+
+  /* ── STATUS DOTS ── */
+  .status-row {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    margin-top: 28px;
+    position: relative; z-index: 1;
+  }
+  .status-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: #00ff88;
+    box-shadow: 0 0 10px #00ff88;
+    animation: statusBlink 2s ease-in-out infinite;
+  }
+  @keyframes statusBlink {
+    0%,100% { opacity:1; box-shadow: 0 0 8px #00ff88; }
+    50%      { opacity:0.4; box-shadow: 0 0 20px #00ff88; }
+  }
+  .status-text {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.35);
+  }
+
+  /* ── BOTTOM DECORATIONS ── */
+  .bottom-deco {
+    margin-top: 48px;
+    display: flex; gap: 20px; align-items: center;
+    animation: fadeUp 1s 1s cubic-bezier(0.16,1,0.3,1) both;
+  }
+  .deco-line {
+    width: 60px; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(0,245,255,0.4));
+  }
+  .deco-line:last-child {
+    background: linear-gradient(90deg, rgba(0,245,255,0.4), transparent);
+  }
+  .deco-text {
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.2);
+  }
+
+  /* ── CORNER GLOW RINGS ── */
+  .ring {
+    position: fixed;
+    border-radius: 50%;
+    border: 1px solid rgba(0,245,255,0.06);
+    pointer-events: none;
+    animation: ringPulse var(--dur,6s) ease-in-out infinite;
+  }
+  @keyframes ringPulse {
+    0%,100% { transform: translate(-50%,-50%) scale(1); opacity:0.3; }
+    50%      { transform: translate(-50%,-50%) scale(1.05); opacity:0.6; }
+  }
+  .ring1 { width:600px;height:600px;top:50%;left:50%;transform:translate(-50%,-50%);--dur:6s; }
+  .ring2 { width:800px;height:800px;top:50%;left:50%;transform:translate(-50%,-50%);--dur:8s; }
+  .ring3 { width:1000px;height:1000px;top:50%;left:50%;transform:translate(-50%,-50%);--dur:10s; }
+</style>
 </head>
 <body>
-  <h1>https://t.me/MKM777_MKM777</h1>
+
+<!-- Background -->
+<div class="bg">
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+  <div class="orb orb4"></div>
+  <div class="grid-overlay"></div>
+  <div class="scanlines"></div>
+</div>
+
+<!-- Rings -->
+<div class="ring ring1"></div>
+<div class="ring ring2"></div>
+<div class="ring ring3"></div>
+
+<!-- Particles -->
+<div class="particles" id="particles"></div>
+
+<!-- Main -->
+<div class="container">
+
+  <div class="title-wrap">
+    <div class="title-sub">✦ Official Channel ✦</div>
+    <div class="title-main">MKM777</div>
+    <div class="title-line"></div>
+  </div>
+
+  <div class="glass-card">
+    <div class="corner corner-tl"></div>
+    <div class="corner corner-tr"></div>
+    <div class="corner corner-bl"></div>
+    <div class="corner corner-br"></div>
+
+    <div class="card-icon">✈️</div>
+    <div class="card-title">TELEGRAM CHANNEL</div>
+    <div class="card-desc">Rasmiy kanalimizga qo'shiling<br>va eng so'nggi yangiliklar bilan<br>bog'liq bo'ling</div>
+
+    <div class="btn-wrap">
+      <a class="liquid-btn" href="https://t.me/MKM777_MKM777" target="_blank" id="mainBtn">
+        <span class="btn-icon">🚀</span>
+        <span class="btn-text">KANALGA O'TISH</span>
+      </a>
+    </div>
+
+    <div class="status-row">
+      <div class="status-dot"></div>
+      <div class="status-text">Online · t.me/MKM777_MKM777</div>
+    </div>
+  </div>
+
+  <div class="bottom-deco">
+    <div class="deco-line"></div>
+    <div class="deco-text">Liquid Glass Design</div>
+    <div class="deco-line"></div>
+  </div>
+
+</div>
+
+<script>
+// Particles
+const pContainer = document.getElementById('particles');
+const colors = ['#00f5ff','#0080ff','#8000ff','#ff00c8','#ffffff'];
+for(let i = 0; i < 60; i++) {
+  const p = document.createElement('div');
+  p.className = 'particle';
+  const size = Math.random() * 4 + 1;
+  p.style.cssText = `
+    --s:${size}px;
+    --c:${colors[Math.floor(Math.random()*colors.length)]};
+    --op:${Math.random()*0.5+0.2};
+    --dur:${Math.random()*10+6}s;
+    --delay:${Math.random()*10}s;
+    --dx:${(Math.random()-0.5)*200}px;
+    left:${Math.random()*100}%;
+  `;
+  pContainer.appendChild(p);
+}
+
+// Ripple on button click
+document.getElementById('mainBtn').addEventListener('click', function(e) {
+  const r = document.createElement('span');
+  r.className = 'ripple';
+  const rect = this.getBoundingClientRect();
+  r.style.left = (e.clientX - rect.left - 2) + 'px';
+  r.style.top  = (e.clientY - rect.top  - 2) + 'px';
+  this.appendChild(r);
+  setTimeout(() => r.remove(), 700);
+});
+
+// Mouse parallax on card
+const card = document.querySelector('.glass-card');
+document.addEventListener('mousemove', e => {
+  const cx = window.innerWidth  / 2;
+  const cy = window.innerHeight / 2;
+  const dx = (e.clientX - cx) / cx;
+  const dy = (e.clientY - cy) / cy;
+  card.style.transform = `perspective(800px) rotateY(${dx*6}deg) rotateX(${-dy*6}deg)`;
+});
+document.addEventListener('mouseleave', () => {
+  card.style.transform = 'perspective(800px) rotateY(0deg) rotateX(0deg)';
+});
+</script>
 </body>
 </html>
